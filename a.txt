@@ -3,4 +3,8 @@ ssss
 modified passwd and usename
 =======
 jjjjj
+<<<<<<< HEAD
+>>>>>>> dev
+=======
+this is branch
 >>>>>>> dev

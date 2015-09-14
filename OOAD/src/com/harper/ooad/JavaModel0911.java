@@ -12,8 +12,19 @@ public class JavaModel0911 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Child c = new Child();
-		c.addPerson(new Parents());
-		c.addPerson(new GrandParents());
+		String []observers = ProMg.getProperty("observer").split(",");
+		for(String s : observers){
+			try {
+				//Class.forName(xxx.xx.xx) 返回的是一个类, .newInstance() 后才创建一个对象
+				c.addPerson((wakeUpEvent)(Class.forName(s)).newInstance());
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 		Thread t = new Thread(c);
 		t.start();
 	}			
@@ -67,4 +78,17 @@ class GrandParents implements wakeUpEvent{
 		System.out.println("GrandParents--->hug");
 	}
 	
+}
+class ProMg{
+	private static Properties property = new Properties();
+	static{
+		try{
+			property.load(JavaModel0911.class.getClassLoader().getResourceAsStream("com/harper/ooad/observer.properties"));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	public static String getProperty(String key){
+		return property.getProperty(key);
+	}
 }
